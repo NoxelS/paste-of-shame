@@ -59,12 +59,17 @@ disallow_any_unimported = true
 no_implicit_optional = true
 check_untyped_defs = true
 warn_return_any = true
-warn_unused_ignores = true
+warn_unused_ignores = false  # Allow unused ignores for optional dependencies
 show_error_codes = true
 
 [[tool.mypy.overrides]]
 module = "pasteofshame.app.macos_app"
 disallow_any_unimported = false
+ignore_missing_imports = true  # Ignore missing rumps in CI
+
+[[tool.mypy.overrides]]
+module = "pkg_resources"
+ignore_missing_imports = true  # Ignore missing pkg_resources (fallback for old Python)
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

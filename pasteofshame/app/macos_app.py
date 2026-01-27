@@ -9,7 +9,7 @@ import threading
 
 # macOS-specific imports
 try:
-    import rumps  # type: ignore[import-untyped]
+    import rumps  # type: ignore[import-untyped,import-not-found]
 except ImportError:
     print("Error: rumps not installed. Install with: pip install rumps")
     sys.exit(1)
