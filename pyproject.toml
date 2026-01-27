@@ -5,7 +5,7 @@ description = "Paste of Shame - Clipboard watchdog that detects LLM-generated bo
 authors = [{ name = "Noel Schwabenland", email = "noel@schwabenland.ch" }]
 readme = "README.md"
 keywords = ['clipboard', 'llm', 'detection', 'paste', 'guard']
-requires-python = ">=3.11,<4.0"
+requires-python = ">=3.10,<3.11"
 dependencies = [
     "pyperclip>=1.9.0",
     "pyyaml>=6.0.1",
@@ -15,9 +15,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.10",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Utilities",
 ]

@@ -31,19 +31,35 @@ clean-build: ## Clean build artifacts
 	@uv run python -c "import shutil; import os; shutil.rmtree('dist') if os.path.exists('dist') else None"
 
 # macOS App Targets
-.PHONY: build-app
-build-app: clean-app ## Build macOS application bundle with py2app (alias mode)
-	@echo "🍎 Building macOS application bundle"
+.PHONY: build-app-dev
+build-app-dev: clean-app ## Build macOS application bundle in alias mode (development)
+	@echo "🍎 Building macOS application bundle (development/alias mode)"
 	@uv sync --group macos-app
 	@mv pyproject.toml pyproject.toml.bak 2>/dev/null || true
 	@uv run python setup.py py2app -A
 	@mv pyproject.toml.bak pyproject.toml 2>/dev/null || true
-	@echo "✅ App bundle created at dist/Paste of Shame.app"
+	@echo "✅ App bundle created at dist/Paste of Shame.app (alias mode)"
+
+.PHONY: build-app
+build-app: clean-app ## Build standalone macOS application bundle
+	@echo "🍎 Building standalone macOS application bundle"
+	@uv sync --group macos-app
+	@mv pyproject.toml pyproject.toml.bak 2>/dev/null || true
+	@echo "⚙️  This may take a few minutes..."
+	@uv run python setup.py py2app 2>&1 | tee build.log || (echo "❌ Build failed. Check build.log for details"; mv pyproject.toml.bak pyproject.toml 2>/dev/null; exit 1)
+	@mv pyproject.toml.bak pyproject.toml 2>/dev/null || true
+	@if [ -d "dist/Paste of Shame.app" ]; then \
+		echo "✅ Standalone app created at dist/Paste of Shame.app"; \
+		echo "📊 App size: $$(du -sh 'dist/Paste of Shame.app' | cut -f1)"; \
+	else \
+		echo "❌ Build failed. App not created."; \
+		exit 1; \
+	fi
 
 .PHONY: clean-app
 clean-app: ## Clean macOS app build artifacts
 	@echo "🧹 Cleaning macOS app artifacts"
-	@rm -rf build dist "Paste of Shame.dmg"
+	@rm -rf build dist "Paste of Shame.dmg" build.log
 
 .PHONY: build-dmg
 build-dmg: build-app ## Build DMG installer for macOS app
@@ -77,8 +93,4 @@ run-app: build-app ## Build and run the macOS app
 	@echo "🚀 Running macOS app"
 	@open "dist/Paste of Shame.app"
 
-.PHONY: update-app
-update-app: ## Update macOS app
-	@pkill -f "Paste of Shame"
-	@make run-app 
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := build
