@@ -7,8 +7,7 @@
 *Your personal clipboard watchdog that catches LLM boilerplate in real-time*
 
 [![Release](https://img.shields.io/github/v/release/NoxelS/paste-of-shame?style=for-the-badge&logo=github&color=success)](https://github.com/NoxelS/paste-of-shame/releases)
-[![CI](https://img.shields.io/github/actions/workflow/status/NoxelS/paste-of-shame/ci.yml?style=for-the-badge&logo=githubactions&label=CI)](https://github.com/NoxelS/paste-of-shame/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/github/actions/workflow/status/NoxelS/paste-of-shame/test.yml?style=for-the-badge&logo=pytest&label=Tests)](https://github.com/NoxelS/paste-of-shame/actions/workflows/test.yml)
+[![CI/Tests](https://img.shields.io/github/actions/workflow/status/NoxelS/paste-of-shame/ci.yml?style=for-the-badge&logo=githubactions&label=CI)](https://github.com/NoxelS/paste-of-shame/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/NoxelS/paste-of-shame?style=for-the-badge)](https://github.com/NoxelS/paste-of-shame/blob/main/LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)](https://www.python.org)
 
