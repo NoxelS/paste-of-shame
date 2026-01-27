@@ -61,10 +61,7 @@ def scan(text: str | None, config: str | None, threshold: int | None, output_jso
         cfg.threshold = threshold
 
     # Load rule pack
-    if rulepack:
-        rule_pack = RulePack.from_yaml(rulepack)
-    else:
-        rule_pack = RulePack.builtin()
+    rule_pack = RulePack.from_yaml(rulepack) if rulepack else RulePack.builtin()
 
     rule_pack = rule_pack.filter_by_language(cfg.enabled_languages)
 

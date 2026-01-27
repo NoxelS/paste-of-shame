@@ -1,7 +1,7 @@
 """Base clipboard watcher interface."""
 
 from abc import ABC, abstractmethod
-from typing import Callable
+from collections.abc import Callable
 
 
 class ClipboardWatcher(ABC):

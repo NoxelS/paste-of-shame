@@ -45,15 +45,10 @@ class Config:
         Load configuration from file.
 
         Args:
-            path: Optional path to config file. If None, uses default location.
-
-        Returns:
-            Config instance with loaded or default values
+            path: Optional path to config file. If None, uses default location.        Returns:
+              Config instance with loaded or default values
         """
-        if path is None:
-            path = cls.get_config_path()
-        else:
-            path = Path(path)
+        path = cls.get_config_path() if path is None else Path(path)
 
         if not path.exists():
             # Return default config
@@ -80,15 +75,10 @@ class Config:
 
     def save(self, path: Path | str | None = None) -> None:
         """
-        Save configuration to file.
-
-        Args:
-            path: Optional path to config file. If None, uses default location.
+        Save configuration to file.        Args:
+              path: Optional path to config file. If None, uses default location.
         """
-        if path is None:
-            path = self.get_config_path()
-        else:
-            path = Path(path)
+        path = self.get_config_path() if path is None else Path(path)
 
         path.parent.mkdir(parents=True, exist_ok=True)
 

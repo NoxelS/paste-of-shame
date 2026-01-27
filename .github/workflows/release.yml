@@ -9,7 +9,7 @@ on:
 jobs:
   build-macos-app:
     runs-on: macos-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -78,10 +78,10 @@ jobs:
     needs: build-macos-app
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
-    
+
     permissions:
       contents: write
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -106,31 +106,31 @@ jobs:
       run: |
         cat > release_notes.md << 'EOF'
         # Paste of Shame v${{ steps.get_version.outputs.VERSION }}
-        
+
         ## 📦 Downloads
-        
+
         ### macOS Application
         - **PasteOfShame-${{ steps.get_version.outputs.VERSION }}-macOS.dmg** - Universal macOS application (requires macOS 10.15+)
-        
+
         ## Installation
-        
+
         ### macOS
         1. Download the DMG file
         2. Open the DMG
         3. Drag "Paste of Shame.app" to Applications folder
         4. Launch from Applications or Spotlight
         5. Click the ⚠️ icon in menu bar and select "Start Watching"
-        
+
         ## What's New
-        
+
         See [CHANGES.md](https://github.com/${{ github.repository }}/blob/main/CHANGES.md) for detailed changelog.
-        
+
         ## Verification
-        
+
         SHA256 checksums are included in the checksums.txt file.
-        
+
         ## Support
-        
+
         - Report issues: https://github.com/${{ github.repository }}/issues
         - Documentation: https://github.com/${{ github.repository }}/blob/main/README.md
         EOF

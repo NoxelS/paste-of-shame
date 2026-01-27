@@ -4,14 +4,12 @@ macOS menu bar application for Paste of Shame.
 Runs as a background agent with system tray icon.
 """
 
-import os
 import sys
 import threading
-from pathlib import Path
 
 # macOS-specific imports
 try:
-    import rumps  # type: ignore[import-not-found]
+    import rumps  # type: ignore[import-untyped]
 except ImportError:
     print("Error: rumps not installed. Install with: pip install rumps")
     sys.exit(1)
@@ -56,7 +54,7 @@ class PasteOfShameApp(rumps.App):
     def _update_menu(self) -> None:
         """Update the menu based on current state."""
         menu_items = []
-        
+
         # Add status if watching
         if self.is_running:
             menu_items.append(self.watching_status_item)
@@ -64,7 +62,7 @@ class PasteOfShameApp(rumps.App):
             menu_items.append(self.stop_watching_item)
         else:
             menu_items.append(self.start_watching_item)
-        
+
         menu_items.extend([
             None,  # Separator
             rumps.MenuItem("Statistics", callback=self.show_stats),
@@ -75,7 +73,7 @@ class PasteOfShameApp(rumps.App):
             None,  # Separator
             rumps.MenuItem("About", callback=self.show_about),
         ])
-        
+
         self.menu.clear()
         for item in menu_items:
             if item is not None:
@@ -86,17 +84,17 @@ class PasteOfShameApp(rumps.App):
     def _create_threshold_menu(self) -> rumps.MenuItem:
         """Create threshold submenu with adjustable values."""
         threshold_menu = rumps.MenuItem(f"Threshold: {self.config.threshold}")
-        
+
         # Common threshold values
         threshold_values = [0, 5, 10, 15, 20, 40, 60]
-        
+
         for value in threshold_values:
             item = rumps.MenuItem(
                 f"{value}{'  ✓' if abs(self.config.threshold - value) < 0.01 else ''}",
-                callback=lambda sender, val=value: self.set_threshold(val)
+                callback=lambda sender, val=value: self.set_threshold(val),
             )
             threshold_menu.add(item)
-        
+
         return threshold_menu
 
     def start_watching_internal(self) -> None:
@@ -181,11 +179,13 @@ class PasteOfShameApp(rumps.App):
             cancel="Close",
         ):
             # Open config folder in Finder
-            os.system(f'open "{config_path.parent}"')
+            import subprocess
+
+            subprocess.run(["open", str(config_path.parent)], check=False)  # noqa: S603, S607
 
     def set_threshold(self, value: float) -> None:
         """Set the detection threshold."""
-        self.config.threshold = value
+        self.config.threshold = int(value)
         self.config.save()
 
         # Update menu to show new threshold

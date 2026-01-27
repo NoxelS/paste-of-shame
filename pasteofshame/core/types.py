@@ -59,7 +59,10 @@ class Rule:
         """
         if self._compiled is None:
             self.compile()
-        assert self._compiled is not None
+        # Compile ensures _compiled is not None
+        if self._compiled is None:
+            msg = "Pattern compilation failed"
+            raise RuntimeError(msg)
         return [(m.start(), m.end()) for m in self._compiled.finditer(text)]
 
     @classmethod

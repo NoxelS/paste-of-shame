@@ -82,9 +82,11 @@ class PollingClipboardWatcher(ClipboardWatcher):
                         if consecutive_unchanged > 3:
                             current_interval = min(current_interval * 1.5, self.max_interval)
 
-            except Exception:
-                # Silently ignore clipboard access errors
-                pass
+            except Exception as e:
+                # Silently ignore clipboard access errors (expected on some platforms)
+                import logging
+
+                logging.debug(f"Clipboard access error: {e}")
 
             # Wait before next poll
             self._stop_event.wait(current_interval)

@@ -43,7 +43,7 @@ class RulePack:
                 data = yaml.safe_load(f)
         except AttributeError:
             # Fallback for older Python versions
-            import pkg_resources  # type: ignore[import-not-found]
+            import pkg_resources
 
             builtin_file = pkg_resources.resource_filename("pasteofshame.core.patterns", "builtin.yml")
             with open(builtin_file, encoding="utf-8") as f:

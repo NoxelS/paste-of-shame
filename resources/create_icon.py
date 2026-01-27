@@ -4,9 +4,7 @@ Generate a simple icon for Paste of Shame macOS app.
 Creates an icns file from the warning emoji.
 """
 
-import os
 import subprocess
-import sys
 from pathlib import Path
 
 

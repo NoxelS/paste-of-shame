@@ -56,10 +56,7 @@ class Notifier:
             print(f"\nTop {len(top_matches)} matches:")
             for i, match in enumerate(top_matches, 1):
                 severity = match.rule.severity.value
-                print(
-                    f"\n{i}. {match.rule.description} "
-                    f"(weight: {match.rule.weight}, severity: {severity})"
-                )
+                print(f"\n{i}. {match.rule.description} (weight: {match.rule.weight}, severity: {severity})")
                 if match.excerpts:
                     excerpt = match.excerpts[0]
                     print(f'   "{excerpt}"')
@@ -80,9 +77,11 @@ class Notifier:
                 self._notify_linux(title, message)
             elif self.system == "Windows":
                 self._notify_windows(title, message)
-        except Exception:
-            # Silently fail for desktop notifications
-            pass
+        except Exception as e:
+            # Silently fail for desktop notifications (expected on some platforms)
+            import logging
+
+            logging.debug(f"Desktop notification error: {e}")
 
     def _notify_macos(self, title: str, message: str) -> None:
         """Send notification on macOS using osascript with extended visibility."""
@@ -94,11 +93,11 @@ class Notifier:
         # The notification will stay visible in Notification Center
         # and appear as a banner for several seconds
         script = f'display notification "{escaped_message}" with title "{escaped_title}" sound name "Basso"'
-        subprocess.run(["osascript", "-e", script], check=False, capture_output=True)
+        subprocess.run(["osascript", "-e", script], check=False, capture_output=True)  # noqa: S603, S607
 
     def _notify_linux(self, title: str, message: str) -> None:
         """Send notification on Linux using notify-send."""
-        subprocess.run(["notify-send", title, message], check=False, capture_output=True)
+        subprocess.run(["notify-send", title, message], check=False, capture_output=True)  # noqa: S603, S607
 
     def _notify_windows(self, title: str, message: str) -> None:
         """Send notification on Windows (fallback to stdout)."""

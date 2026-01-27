@@ -1,7 +1,5 @@
 """Tests for suppression logic."""
 
-import pytest
-
 from pasteofshame.core.detector import Detector
 from pasteofshame.core.rules import RulePack
 from pasteofshame.core.scoring import ScoringEngine
