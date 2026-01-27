@@ -1,0 +1,235 @@
+# Built-in detection rules for LLM-generated text
+version: "1.0"
+description: "Default ruleset for detecting common LLM boilerplate phrases"
+
+rules:
+  # Obvious AI identifiers
+  - id: "ai-identifier-1"
+    description: "AI self-identification phrase"
+    pattern: "as an ai language model"
+    type: "phrase"
+    weight: 30
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "ai-identifier-2"
+    description: "AI assistant self-identification"
+    pattern: "as an ai assistant"
+    type: "phrase"
+    weight: 30
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "ai-identifier-3"
+    description: "LLM self-reference"
+    pattern: "i'm a large language model"
+    type: "phrase"
+    weight: 30
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  # Common openers
+  - id: "opener-1"
+    description: "Formal delivery phrase"
+    pattern: "here is the requested"
+    type: "phrase"
+    weight: 15
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "opener-2"
+    description: "Polite acknowledgment"
+    pattern: "certainly"
+    type: "phrase"
+    weight: 8
+    severity: "low"
+    languages: ["en"]
+    word_boundary: true
+
+  - id: "opener-3"
+    description: "Below introduction"
+    pattern: "below is"
+    type: "phrase"
+    weight: 10
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "opener-4"
+    description: "Here's introduction"
+    pattern: "here's"
+    type: "phrase"
+    weight: 5
+    severity: "low"
+    languages: ["en"]
+    word_boundary: true
+
+  - id: "opener-5"
+    description: "As requested phrase"
+    pattern: "as requested"
+    type: "phrase"
+    weight: 12
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  # Refusal/limitation phrases
+  - id: "refusal-1"
+    description: "Cannot help refusal"
+    pattern: "i can't help with that"
+    type: "phrase"
+    weight: 25
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "refusal-2"
+    description: "Cannot provide refusal"
+    pattern: "i cannot provide"
+    type: "phrase"
+    weight: 25
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "refusal-3"
+    description: "Unable to assist"
+    pattern: "i'm unable to"
+    type: "phrase"
+    weight: 20
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "refusal-4"
+    description: "Cannot assist"
+    pattern: "i cannot assist"
+    type: "phrase"
+    weight: 25
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  # Encouragement phrases
+  - id: "encourage-1"
+    description: "Encouragement to seek help"
+    pattern: "i encourage you to"
+    type: "phrase"
+    weight: 15
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "encourage-2"
+    description: "Recommendation phrase"
+    pattern: "i recommend"
+    type: "phrase"
+    weight: 8
+    severity: "low"
+    languages: ["en"]
+    word_boundary: true
+
+  # Closing phrases
+  - id: "closing-1"
+    description: "Conclusion marker"
+    pattern: "in conclusion"
+    type: "phrase"
+    weight: 12
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "closing-2"
+    description: "Summary marker"
+    pattern: "to summarize"
+    type: "phrase"
+    weight: 12
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "closing-3"
+    description: "Hope this helps"
+    pattern: "i hope this helps"
+    type: "phrase"
+    weight: 15
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "closing-4"
+    description: "Let me know"
+    pattern: "let me know if you"
+    type: "phrase"
+    weight: 10
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  # Additional common patterns
+  - id: "pattern-1"
+    description: "Happy to help"
+    pattern: "happy to help"
+    type: "phrase"
+    weight: 12
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "pattern-2"
+    description: "Feel free to"
+    pattern: "feel free to"
+    type: "phrase"
+    weight: 8
+    severity: "low"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "pattern-3"
+    description: "Please note that"
+    pattern: "please note that"
+    type: "phrase"
+    weight: 8
+    severity: "low"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "pattern-4"
+    description: "It's important to"
+    pattern: "it's important to"
+    type: "phrase"
+    weight: 7
+    severity: "low"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "pattern-5"
+    description: "Keep in mind"
+    pattern: "keep in mind"
+    type: "phrase"
+    weight: 7
+    severity: "low"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "pattern-6"
+    description: "Based on your request"
+    pattern: "based on your request"
+    type: "phrase"
+    weight: 15
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  # Regex patterns for more complex detection
+  - id: "regex-1"
+    description: "Here's/Here is a [noun]"
+    pattern: "here(?:'s| is) (?:a|an|the) \\w+"
+    type: "regex"
+    weight: 10
+    severity: "low"
+    languages: ["en"]
