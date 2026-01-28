@@ -308,7 +308,11 @@ class PasteOfShameApp(rumps.App):
         flashing icon isn't immediately overwritten by other state updates.
         Use force=True to override.
         """
-        if getattr(self, "_flash_end_time", None) is not None and not force and time.time() < self._flash_end_time:
+        if (
+            getattr(self, "_flash_end_time", None) is not None
+            and not force
+            and (self._flash_end_time and time.time() < self._flash_end_time)
+        ):
             logger.debug("Skipping title update because a flash is active")
             return
 
@@ -383,7 +387,7 @@ class PasteOfShameApp(rumps.App):
                 capture_output=True,
                 text=True,
             )
-            
+
             if result.returncode == 0:
                 rumps.notification(
                     title="Paste of Shame",
