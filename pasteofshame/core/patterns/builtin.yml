@@ -31,6 +31,60 @@ rules:
     languages: ["en"]
     word_boundary: false
 
+  - id: "ai-identifier-4"
+    description: "As a language model (variant)"
+    pattern: "as a language model"
+    type: "phrase"
+    weight: 30
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "ai-identifier-5"
+    description: "I am an AI / virtual assistant"
+    pattern: "i am an ai"
+    type: "phrase"
+    weight: 30
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "ai-identifier-6"
+    description: "I am a language model / virtual assistant"
+    pattern: "i am a language model"
+    type: "phrase"
+    weight: 30
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "ai-identifier-7"
+    description: "No internet / browsing capability mention"
+    pattern: "i do not have access to the internet"
+    type: "phrase"
+    weight: 18
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "ai-identifier-8"
+    description: "I can't browse / browsing disabled"
+    pattern: "i cannot browse"
+    type: "phrase"
+    weight: 18
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "ai-identifier-9"
+    description: "Short self-reference: I'm an AI"
+    pattern: "i'm an ai"
+    type: "phrase"
+    weight: 30
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
   # Common openers
   - id: "opener-1"
     description: "Formal delivery phrase"
@@ -111,6 +165,41 @@ rules:
     type: "phrase"
     weight: 25
     severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "refusal-5"
+    description: "I don't have personal experience / feelings"
+    pattern: "i do not have personal experience"
+    type: "phrase"
+    weight: 15
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "refusal-6"
+    description: "Apology + can't help phrasing"
+    pattern: "i'm sorry,? but i can't"
+    type: "regex"
+    weight: 20
+    severity: "high"
+    languages: ["en"]
+
+  - id: "refusal-7"
+    description: "Can't provide personal data phrasing"
+    pattern: "i cannot provide personal"
+    type: "phrase"
+    weight: 20
+    severity: "high"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "refusal-8"
+    description: "I have no browsing capabilities"
+    pattern: "i don't have browsing capabilities"
+    type: "phrase"
+    weight: 18
+    severity: "medium"
     languages: ["en"]
     word_boundary: false
 
@@ -233,3 +322,108 @@ rules:
     weight: 10
     severity: "low"
     languages: ["en"]
+
+  - id: "regex-2"
+    description: "Generic 'I don't have access to' patterns"
+    pattern: "i (do n't|don\'t|do not) have access to"
+    type: "regex"
+    weight: 18
+    severity: "medium"
+    languages: ["en"]
+
+  - id: "regex-3"
+    description: "Common assistant disclaimers (contains 'trained')"
+    pattern: "trained (?:on|by|with)"
+    type: "regex"
+    weight: 12
+    severity: "low"
+    languages: ["en"]
+
+  # Boilerplate phrases
+  - id: "boiler-1"
+    description: "Polite offer phrasing"
+    pattern: "if you'd like, i can"
+    type: "phrase"
+    weight: 10
+    severity: "low"
+    languages: ["en"]
+    word_boundary: false
+
+  - id: "boiler-2"
+    description: "Common sign-off: hope this helps (variant)"
+    pattern: "hope this helps"
+    type: "phrase"
+    weight: 12
+    severity: "medium"
+    languages: ["en"]
+    word_boundary: false
+
+  # German phrases
+  - id: "de-ai-1"
+    description: "German: als Sprachmodell"
+    pattern: "als sprachmodell"
+    type: "phrase"
+    weight: 30
+    severity: "high"
+    languages: ["de"]
+    word_boundary: false
+
+  - id: "de-ai-2"
+    description: "German: als KI / künstliche Intelligenz"
+    pattern: "als (?:ki|künstliche intelligenz)"
+    type: "regex"
+    weight: 30
+    severity: "high"
+    languages: ["de"]
+
+  - id: "de-ai-3"
+    description: "German: ich bin ein sprachmodell"
+    pattern: "ich bin ein sprachmodell"
+    type: "phrase"
+    weight: 30
+    severity: "high"
+    languages: ["de"]
+    word_boundary: false
+
+  - id: "de-refusal-1"
+    description: "German refusal: ich kann nicht helfen"
+    pattern: "ich kann nicht helfen"
+    type: "phrase"
+    weight: 25
+    severity: "high"
+    languages: ["de"]
+    word_boundary: false
+
+  - id: "de-refusal-2"
+    description: "German: ich habe keinen zugriff auf"
+    pattern: "ich habe keinen zugriff auf"
+    type: "phrase"
+    weight: 18
+    severity: "medium"
+    languages: ["de"]
+    word_boundary: false
+
+  - id: "de-refusal-3"
+    description: "German: ich kann nicht auf das internet zugreifen"
+    pattern: "ich kann nicht auf das internet zugreifen"
+    type: "phrase"
+    weight: 18
+    severity: "medium"
+    languages: ["de"]
+    word_boundary: false
+
+  - id: "de-boiler-1"
+    description: "German polite sign-off: ich hoffe, das hilft"
+    pattern: "ich hoffe.*hilft"
+    type: "regex"
+    weight: 12
+    severity: "medium"
+    languages: ["de"]
+
+  - id: "de-boiler-2"
+    description: "German: es tut mir leid, ich kann nicht"
+    pattern: "es tut mir leid, ich kann (nicht|dabei nicht)"
+    type: "regex"
+    weight: 20
+    severity: "high"
+    languages: ["de"]
