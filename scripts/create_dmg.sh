@@ -5,11 +5,21 @@ set -e
 
 APP_NAME="Paste of Shame"
 DMG_NAME="Paste-of-Shame"
-VERSION="0.0.1"
+
+# Extract version from pyproject.toml
+if [ -f "pyproject.toml" ]; then
+    VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+    echo "📌 Detected version: ${VERSION}"
+else
+    VERSION="0.0.1"
+    echo "⚠️  Warning: Could not find pyproject.toml, using default version ${VERSION}"
+fi
+
 APP_PATH="dist/${APP_NAME}.app"
-DMG_PATH="dist/${DMG_NAME}.dmg"
+DMG_PATH="dist/${DMG_NAME}-${VERSION}-macOS.dmg"
 VOLUME_NAME="${APP_NAME} ${VERSION}"
 TEMP_DMG="dist/temp.dmg"
+ICON_FILE="resources/icon.icns"
 
 echo "📦 Creating DMG installer for ${APP_NAME}..."
 

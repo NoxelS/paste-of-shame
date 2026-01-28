@@ -1,5 +1,6 @@
 """Cross-platform notification system."""
 
+import os
 import platform
 import subprocess
 import sys
@@ -84,20 +85,56 @@ class Notifier:
             logging.debug(f"Desktop notification error: {e}")
 
     def _notify_macos(self, title: str, message: str) -> None:
-        """Send notification on macOS using osascript with extended visibility."""
-        # Escape quotes and backslashes in the message
+        """Send notification on macOS using osascript optimized for app bundles."""
         escaped_message = message.replace("\\", "\\\\").replace('"', '\\"')
         escaped_title = title.replace("\\", "\\\\").replace('"', '\\"')
 
-        # Use 'display notification' with subtitle for better visibility
-        # The notification will stay visible in Notification Center
-        # and appear as a banner for several seconds
+        # Check if we're running from an app bundle
+        app_bundle = self._get_app_bundle_path()
+
+        if app_bundle:
+            # Running from app bundle - use the bundle's executable to send notification
+            # This ensures the notification uses the app's icon
+            bundle_exe = os.path.join(app_bundle, "Contents", "MacOS", "Paste of Shame")
+
+            if os.path.exists(bundle_exe):
+                # Send notification through the bundle's main executable
+                # This way macOS attributes it to our app
+                script = f'display notification "{escaped_message}" with title "{escaped_title}" sound name "Basso"'
+
+                # Use the bundle executable's directory as working directory
+                # This helps macOS identify the notification source
+                subprocess.run(
+                    ["osascript", "-e", script],
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                    cwd=os.path.dirname(bundle_exe),
+                )
+                return
+
+        # Fallback: standard osascript (for development/non-bundled)
         script = f'display notification "{escaped_message}" with title "{escaped_title}" sound name "Basso"'
-        subprocess.run(["osascript", "-e", script], check=False, capture_output=True)  # noqa: S603, S607
+        subprocess.run(["osascript", "-e", script], check=False, capture_output=True, text=True)
+
+    def _get_app_bundle_path(self) -> str | None:
+        """Get the path to the .app bundle if running from one."""
+        import os
+
+        # Get the current file's path
+        current_path = os.path.abspath(__file__)
+
+        # Walk up looking for .app directory
+        parts = current_path.split(os.sep)
+        for i in range(len(parts) - 1, -1, -1):
+            if parts[i].endswith(".app"):
+                return os.sep.join(parts[: i + 1])
+
+        return None
 
     def _notify_linux(self, title: str, message: str) -> None:
         """Send notification on Linux using notify-send."""
-        subprocess.run(["notify-send", title, message], check=False, capture_output=True)  # noqa: S603, S607
+        subprocess.run(["notify-send", title, message], check=False, capture_output=True)
 
     def _notify_windows(self, title: str, message: str) -> None:
         """Send notification on Windows (fallback to stdout)."""

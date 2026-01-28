@@ -17,6 +17,7 @@ class Config:
     enabled_languages: list[str] = field(default_factory=lambda: ["en", "de"])
     allowlist_patterns: list[str] = field(default_factory=list)
     notify_enabled: bool = True
+    notify_sound: bool = False  # Whether to play sound with notifications
     poll_interval: float = 0.3
     max_poll_interval: float = 2.0
     cooldown_seconds: float = 5.0

@@ -139,7 +139,7 @@ Automatically ignores:
 <td width="50%">
 
 ### 🔔 Instant Notifications
-Native desktop alerts with sound and visual indicators when LLM content is detected.
+Native desktop alerts when LLM content is detected. Configurable sound (silent by default) and visual indicators.
 
 ### 📊 Adjustable Sensitivity
 Fine-tune detection threshold from 1-60 points to match your workflow. Configure via menu bar or config file.
@@ -148,6 +148,7 @@ Fine-tune detection threshold from 1-60 points to match your workflow. Configure
 Beautiful menu bar app with:
 - 🟢 Start/Stop watching
 - 🎚️ Adjust threshold on-the-fly
+- 🔇/🔊 Toggle notification sound
 - ⚙️ Open config in your editor
 - 🔄 Reload config instantly
 

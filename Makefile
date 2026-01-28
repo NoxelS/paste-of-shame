@@ -102,4 +102,21 @@ update-app: run-app
 	@echo "🔄 Relaunching macOS app"
 	@open "dist/Paste of Shame.app"
 
+.PHONY: logs
+logs: ## Show app logs (tail -f)
+	@echo "📋 Showing logs from /tmp/paste-of-shame.log"
+	@echo "Press Ctrl+C to stop"
+	@tail -f /tmp/paste-of-shame.log
+
+.PHONY: logs-clear
+logs-clear: ## Clear app logs
+	@echo "🧹 Clearing logs"
+	@rm -f /tmp/paste-of-shame.log
+	@echo "✅ Logs cleared"
+
+.PHONY: logs-show
+logs-show: ## Show last 50 lines of app logs
+	@echo "📋 Last 50 lines from /tmp/paste-of-shame.log"
+	@tail -50 /tmp/paste-of-shame.log 2>/dev/null || echo "(No logs yet - start the app first)"
+
 .DEFAULT_GOAL := build

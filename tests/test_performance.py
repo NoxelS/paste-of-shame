@@ -56,7 +56,7 @@ class TestPerformance:
         )
 
         start = time.perf_counter()
-        result = detector.scan(text)
+        detector.scan(text)
         elapsed = time.perf_counter() - start
 
         assert len(text) > 50000  # Ensure we have large text

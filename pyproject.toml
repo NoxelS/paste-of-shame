@@ -71,11 +71,15 @@ ignore_missing_imports = true  # Ignore missing rumps in CI
 module = "pkg_resources"
 ignore_missing_imports = true  # Ignore missing pkg_resources (fallback for old Python)
 
+[[tool.mypy.overrides]]
+module = "Foundation"
+ignore_missing_imports = true  # PyObjC Foundation framework (macOS native)
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py310"
 line-length = 120
 fix = true
 
@@ -117,6 +121,11 @@ ignore = [
     "E501",
     # DoNotAssignLambda
     "E731",
+    # Suboprocess calls
+    "S607",
+    "S603",
+    # Unused unpacks are fine
+    "RUF059",
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -126,7 +135,7 @@ ignore = [
 preview = true
 
 [tool.deptry]
-extend_exclude = ["tests"]
+extend_exclude = ["tests", "scripts"]
 
 [tool.deptry.per_rule_ignores]
 DEP004 = ["rumps"]  # Optional dependency group (macos-app)
