@@ -10,6 +10,8 @@ dependencies = [
     "pyperclip>=1.9.0",
     "pyyaml>=6.0.1",
     "click>=8.1.0",
+    "regex>=2024.0.0",
+    "pyahocorasick>=2.1.0",
 ]
 classifiers = [
     "Intended Audience :: Developers",
@@ -37,6 +39,7 @@ dev = [
     "mypy>=1.19.1",
     "types-PyYAML>=6.0.12",
     "ruff>=0.14.10",
+    "pytest-benchmark>=5.2.3",
 ]
 macos-app = [
     "py2app>=0.28.0",
@@ -75,6 +78,9 @@ ignore_missing_imports = true  # PyObjC Foundation framework (macOS native)
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "benchmark: marks tests as benchmark tests (deselect with '-m \"not benchmark\"')",
+]
 
 [tool.ruff]
 target-version = "py310"

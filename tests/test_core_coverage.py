@@ -287,9 +287,7 @@ class TestScanResult:
             for i in range(5)
         ]
 
-        matches = [
-            Match(rule=rule, spans=[(0, 5)], excerpts=[f"test{i}"]) for i, rule in enumerate(rules)
-        ]
+        matches = [Match(rule=rule, spans=[(0, 5)], excerpts=[f"test{i}"]) for i, rule in enumerate(rules)]
 
         result = ScanResult(
             text="test0 test1 test2 test3 test4",
@@ -576,4 +574,3 @@ class TestRemainingCoverage:
         factor, reason = engine.calculate_suppression_factor("This has pattern4")
         assert factor == 1.0
         assert reason is None
-

@@ -57,4 +57,4 @@ if __name__ == "__main__":
         setup_code = f.read()
         # Remove the final setup() call, we'll handle it
         setup_code = setup_code.replace("if __name__ == '__main__':", "if False:")
-        exec(setup_code, {"__name__": "__main__"}) # noqa: S102
+        exec(setup_code, {"__name__": "__main__"})  # noqa: S102

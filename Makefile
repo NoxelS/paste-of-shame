@@ -22,6 +22,26 @@ test: ## Test the code with pytest
 	@echo "🚀 Testing code: Running pytest"
 	@uv run python -m pytest --doctest-modules
 
+.PHONY: benchmark
+benchmark: ## Run performance benchmarks
+	@echo "⚡ Running performance benchmarks"
+	@uv run pytest tests/test_benchmarks.py --benchmark-only --benchmark-sort=mean
+
+.PHONY: benchmark-save
+benchmark-save: ## Save benchmark baseline
+	@echo "💾 Saving benchmark baseline"
+	@uv run pytest tests/test_benchmarks.py --benchmark-only --benchmark-save=baseline --benchmark-autosave
+
+.PHONY: benchmark-compare
+benchmark-compare: ## Compare current performance to baseline
+	@echo "📊 Comparing performance to baseline"
+	@uv run pytest tests/test_benchmarks.py --benchmark-only --benchmark-compare=baseline --benchmark-compare-fail=mean:10%
+
+.PHONY: benchmark-verbose
+benchmark-verbose: ## Run benchmarks with detailed output
+	@echo "⚡ Running benchmarks with verbose output"
+	@uv run pytest tests/test_benchmarks.py --benchmark-only --benchmark-verbose --benchmark-columns=min,max,mean,stddev,median,ops,rounds
+
 .PHONY: build
 build: clean-build ## Build wheel file
 	@echo "🚀 Creating wheel file"

@@ -1,0 +1,5 @@
+# Benchmark results (JSON files)
+*.json
+
+# Keep the README
+!README.md

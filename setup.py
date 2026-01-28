@@ -67,7 +67,7 @@ def patch_py2app():
 # Apply patch before importing setup
 patch_py2app()
 
-from setuptools import setup # noqa: E402, I001
+from setuptools import setup  # noqa: E402
 
 APP = ["pasteofshame/app/macos_app.py"]
 DATA_FILES = [
