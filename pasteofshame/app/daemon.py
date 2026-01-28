@@ -140,8 +140,20 @@ class Daemon:
 
             # Use callback if provided (for macOS app with proper icon)
             if self.notification_callback:
-                title = "🫣⁉️ Shameful Paste Ahead"
-                message = f"Score: {result.total_score} - Review clipboard content before sharing."
+                title = "🫣⁉️ Review Your Clipboard!"
+
+                # Build message with score and top matches
+                top_matches = sorted(result.matches, key=lambda m: m.rule.weight * len(m.spans), reverse=True)[:3]
+
+                match_lines = []
+                for match in top_matches:
+                    match_count = len(match.spans)
+                    match_desc = match.rule.description
+                    match_lines.append(f"• {match_desc} ({match_count}x)")
+
+                matches_text = "\n".join(match_lines) if match_lines else "Multiple patterns detected"
+                message = f"Score: {result.total_score}\n{matches_text}"
+
                 logger.info(f"Calling notification callback: {title}, sound={self.config.notify_sound}")
                 try:
                     self.notification_callback(title, message, self.config.notify_sound)
