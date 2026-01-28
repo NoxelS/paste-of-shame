@@ -33,7 +33,6 @@ dev = [
     "pytest>=9.0.2",
     "pytest-cov>=6.0.0",
     "pre-commit>=4.5.1",
-    "tox-uv>=1.29.0",
     "deptry>=0.24.0",
     "mypy>=1.19.1",
     "types-PyYAML>=6.0.12",
