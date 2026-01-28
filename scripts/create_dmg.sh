@@ -44,26 +44,85 @@ ln -s /Applications "${STAGING_DIR}/Applications"
 
 # Create a simple README
 cat > "${STAGING_DIR}/README.txt" << 'EOF'
-Paste of Shame - Clipboard Watchdog for LLM Boilerplate
-========================================================
+╔══════════════════════════════════════════════════════════════╗
+║  Paste of Shame - Clipboard Watchdog for LLM Boilerplate   ║
+╚══════════════════════════════════════════════════════════════╝
 
-Installation:
-1. Drag "Paste of Shame.app" to the Applications folder
-2. Open "Paste of Shame" from Applications
-3. The app will appear in your menu bar (⚠️ icon)
-4. Click "Start Watching" to begin monitoring your clipboard
+📦 INSTALLATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Drag "Paste of Shame.app" → "Applications" folder
+2. Open "Paste of Shame" from Applications or Spotlight (⌘+Space)
+3. The app will appear in your menu bar (🫥 or 🔎 icon)
+4. Click the icon and select "Start Watching"
 
-Optional Auto-Start:
-To make Paste of Shame start automatically on login:
-1. Open System Preferences > Users & Groups
-2. Select your user and click "Login Items"
-3. Click the "+" button and add "Paste of Shame" from Applications
+✅ That's it! You'll now get notified when LLM boilerplate
+   is detected in your clipboard.
 
-Or use the command line:
-  make install-launchagent
 
-For more information:
-https://github.com/NoxelS/paste-of-shame
+🚀 AUTO-START ON LOGIN (Optional but Recommended)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Make Paste of Shame launch automatically when you log in.
+
+┌─────────────────────────────────────────────────────────────┐
+│ METHOD 1: System Settings (Easiest) ⭐                      │
+└─────────────────────────────────────────────────────────────┘
+  1. Open System Settings → General → Login Items
+  2. Click the "+" button under "Open at Login"
+  3. Select "Paste of Shame" from Applications
+  4. Done! ✅ App will start automatically on every login
+
+┌─────────────────────────────────────────────────────────────┐
+│ METHOD 2: Terminal Command (For Developers)                 │
+└─────────────────────────────────────────────────────────────┘
+  If you have the source repository cloned:
+  
+  To enable auto-start:
+    cd /path/to/paste-of-shame
+    make install-launchagent
+  
+  To disable auto-start:
+    make uninstall-launchagent
+
+  Manual verification:
+    launchctl list | grep pasteofshame
+
+
+⚙️ FEATURES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✓ Real-time clipboard monitoring (zero performance impact)
+  ✓ Detects 25+ common LLM phrases and patterns
+  ✓ Smart suppression for quoted text and code blocks
+  ✓ Adjustable sensitivity threshold (1-60)
+  ✓ Native macOS notifications with sound toggle
+  ✓ Menu bar controls for quick access
+  ✓ Privacy-first: 100% local, no network, no AI models
+
+
+🎛️ MENU BAR CONTROLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  🟢 Start/Stop watching
+  🎚️ Adjust detection threshold
+  🔇 Toggle notification sound
+  ⚙️ Open config file
+  🔄 Reload configuration
+  🧪 Test notifications
+
+
+📚 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  GitHub: https://github.com/NoxelS/paste-of-shame
+  Issues: https://github.com/NoxelS/paste-of-shame/issues
+
+
+💡 TIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  • Set threshold to 10-15 for sensitive detection
+  • Set threshold to 30-40 for less frequent alerts
+  • Use "Test Notification" to verify permissions
+  • Config file: ~/.config/pasteofshame/config.yml
+
+
+Need help? Found a bug? Open an issue on GitHub! 🐛
 EOF
 
 # Calculate size for DMG

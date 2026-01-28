@@ -96,6 +96,70 @@ Ever copy-pasted AI-generated content and **forgot to remove the telltale phrase
 
 That's it! You'll get instant notifications when LLM boilerplate is detected in your clipboard.
 
+### 🚀 Auto-Start on Login (Optional)
+
+Make Paste of Shame launch automatically when you log in:
+
+#### **Method 1: System Settings** (Recommended)
+
+<table>
+<tr>
+<td width="60px" align="center">1️⃣</td>
+<td>Open <strong>System Settings</strong> → <strong>General</strong> → <strong>Login Items</strong></td>
+</tr>
+<tr>
+<td align="center">2️⃣</td>
+<td>Click the <strong>"+"</strong> button under "Open at Login"</td>
+</tr>
+<tr>
+<td align="center">3️⃣</td>
+<td>Select <strong>"Paste of Shame"</strong> from Applications</td>
+</tr>
+<tr>
+<td align="center">✅</td>
+<td>Done! The app will now start automatically on every login</td>
+</tr>
+</table>
+
+#### **Method 2: Terminal Command** (Advanced)
+
+If you have the repository cloned:
+
+```bash
+cd /path/to/paste-of-shame
+make install-launchagent
+```
+
+**To disable auto-start later:**
+```bash
+make uninstall-launchagent
+```
+
+<details>
+<summary>💡 What does this do? (click to expand)</summary>
+
+This creates a LaunchAgent plist file at:
+```
+~/Library/LaunchAgents/com.pasteofshame.app.plist
+```
+
+The LaunchAgent tells macOS to automatically launch Paste of Shame when you log in. It's a standard macOS mechanism for background applications.
+
+**To verify it's installed:**
+```bash
+launchctl list | grep pasteofshame
+```
+
+**To manually uninstall:**
+```bash
+launchctl unload ~/Library/LaunchAgents/com.pasteofshame.app.plist
+rm ~/Library/LaunchAgents/com.pasteofshame.app.plist
+```
+
+</details>
+
+---
+
 **Advanced: Command Line Installation**
 
 <details>

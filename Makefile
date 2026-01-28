@@ -77,18 +77,11 @@ install-app: build-app ## Install macOS app to /Applications
 
 .PHONY: install-launchagent
 install-launchagent: ## Install LaunchAgent for auto-start on login
-	@echo "🚀 Installing LaunchAgent"
-	@mkdir -p ~/Library/LaunchAgents
-	@cp resources/com.pasteofshame.app.plist ~/Library/LaunchAgents/
-	@launchctl load ~/Library/LaunchAgents/com.pasteofshame.app.plist
-	@echo "✅ LaunchAgent installed and loaded"
+	@./scripts/install_autostart.sh
 
 .PHONY: uninstall-launchagent
 uninstall-launchagent: ## Uninstall LaunchAgent
-	@echo "🗑️  Uninstalling LaunchAgent"
-	@launchctl unload ~/Library/LaunchAgents/com.pasteofshame.app.plist 2>/dev/null || true
-	@rm -f ~/Library/LaunchAgents/com.pasteofshame.app.plist
-	@echo "✅ LaunchAgent uninstalled"
+	@./scripts/uninstall_autostart.sh
 
 .PHONY: run-app
 run-app: build-app ## Build and run the macOS app
