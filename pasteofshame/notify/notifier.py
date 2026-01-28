@@ -67,7 +67,7 @@ class Notifier:
 
     def _send_desktop_notification(self, result: ScanResult) -> None:
         """Send desktop notification (best-effort)."""
-        title = "⚠️ LLM Boilerplate Detected"
+        title = "🫣⁉️ Shameful Paste Ahead"
         message = f"Score: {result.total_score} - Review clipboard content before sharing."
 
         try:

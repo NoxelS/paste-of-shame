@@ -27,7 +27,7 @@ class PasteOfShameApp(rumps.App):
         super().__init__(
             "Paste of Shame",
             icon=None,  # Use text-based icon initially
-            quit_button="Quit",
+            quit_button=None,  # We'll add it manually to control position
         )
 
         # Load config
@@ -37,56 +37,62 @@ class PasteOfShameApp(rumps.App):
         self.is_running = False
 
         # Set title to show in menu bar
-        self.title = "⚠️"
+        self.title = "🫥"
 
-        # Create menu items that we'll update dynamically
+        # Create persistent menu items (created once, reused)
         self.start_watching_item = rumps.MenuItem("Start Watching", callback=self.start_watching)
         self.stop_watching_item = rumps.MenuItem("Stop Watching", callback=self.stop_watching)
         self.watching_status_item = rumps.MenuItem("Watching...", callback=None)
+        self.statistics_item = rumps.MenuItem("Statistics", callback=self.show_stats)
+        self.preferences_item = rumps.MenuItem("Preferences...", callback=self.show_preferences)
+        self.reload_config_item = rumps.MenuItem("Reload Config", callback=self.reload_config)
+        self.about_item = rumps.MenuItem("About", callback=self.show_about)
+        self.quit_item = rumps.MenuItem("Quit", callback=rumps.quit_application)
 
-        # Build menu
-        self._update_menu()
-
-        # Auto-start if configured
+        # Auto-start if configured (before building menu)
         if self.config.notify_enabled:
-            self.start_watching_internal()
+            # Start watching without calling _update_menu yet
+            rule_pack = RulePack.builtin()
+            self.daemon = Daemon(self.config, rule_pack)
+            self.daemon_thread = threading.Thread(target=self.daemon.start, daemon=True)
+            self.daemon_thread.start()
+            self.is_running = True
+            self.title = "🔎"
+
+        # Build initial menu (will reflect correct state now)
+        self._update_menu()
 
     def _update_menu(self) -> None:
         """Update the menu based on current state."""
-        menu_items = []
-
-        # Add status if watching
-        if self.is_running:
-            menu_items.append(self.watching_status_item)
-            menu_items.append(None)  # Separator
-            menu_items.append(self.stop_watching_item)
-        else:
-            menu_items.append(self.start_watching_item)
-
-        menu_items.extend([
-            None,  # Separator
-            rumps.MenuItem("Statistics", callback=self.show_stats),
-            rumps.MenuItem("Preferences...", callback=self.show_preferences),
-            rumps.MenuItem("Reload Config", callback=self.reload_config),
-            None,  # Separator
-            self._create_threshold_menu(),
-            None,  # Separator
-            rumps.MenuItem("About", callback=self.show_about),
-        ])
-
+        # Clear all menu items
         self.menu.clear()
-        for item in menu_items:
-            if item is not None:
-                self.menu.add(item)
-            else:
-                self.menu.add(rumps.separator)
+        
+        # Add status/control items based on state
+        if self.is_running:
+            self.menu.add(self.watching_status_item)
+            self.menu.add(rumps.separator)
+            self.menu.add(self.stop_watching_item)
+        else:
+            self.menu.add(self.start_watching_item)
+
+        # Add separator and other items
+        self.menu.add(rumps.separator)
+        self.menu.add(self.statistics_item)
+        self.menu.add(self.preferences_item)
+        self.menu.add(self.reload_config_item)
+        self.menu.add(rumps.separator)
+        self.menu.add(self._create_threshold_menu())
+        self.menu.add(rumps.separator)
+        self.menu.add(self.about_item)
+        self.menu.add(rumps.separator)
+        self.menu.add(self.quit_item)
 
     def _create_threshold_menu(self) -> rumps.MenuItem:
         """Create threshold submenu with adjustable values."""
         threshold_menu = rumps.MenuItem(f"Threshold: {self.config.threshold}")
 
         # Common threshold values
-        threshold_values = [0, 5, 10, 15, 20, 40, 60]
+        threshold_values = [1, 2, 3, 5, 8, 10, 15, 20, 30, 40, 50, 60]
 
         for value in threshold_values:
             item = rumps.MenuItem(
@@ -112,13 +118,12 @@ class PasteOfShameApp(rumps.App):
             self.daemon_thread.start()
 
             self.is_running = True
-            self.title = "🔍"  # Change title when active
+            self.title = "🔎"  # Change title when active
             self._update_menu()  # Update menu to reflect new state
 
         except Exception as e:
             rumps.alert("Error", f"Failed to start watching: {e}")
 
-    @rumps.clicked("Start Watching")
     def start_watching(self, _: rumps.MenuItem) -> None:
         """Start watching the clipboard."""
         if self.is_running:
@@ -133,7 +138,6 @@ class PasteOfShameApp(rumps.App):
             sound=True,
         )
 
-    @rumps.clicked("Stop Watching")
     def stop_watching(self, _: rumps.MenuItem) -> None:
         """Stop watching the clipboard."""
         if not self.is_running:
@@ -145,7 +149,7 @@ class PasteOfShameApp(rumps.App):
             self.daemon = None
 
         self.is_running = False
-        self.title = "⚠️"
+        self.title = "🫥"
         self._update_menu()  # Update menu to reflect new state
 
         rumps.notification(
@@ -154,7 +158,6 @@ class PasteOfShameApp(rumps.App):
             message="Clipboard watching stopped",
         )
 
-    @rumps.clicked("Statistics")
     def show_stats(self, _: rumps.MenuItem) -> None:
         """Show detection statistics."""
         if not self.daemon:
@@ -166,7 +169,6 @@ class PasteOfShameApp(rumps.App):
 
         rumps.alert("Statistics", message)
 
-    @rumps.clicked("Preferences...")
     def show_preferences(self, _: rumps.MenuItem) -> None:
         """Show preferences dialog."""
         config_path = Config.get_config_path()
@@ -235,7 +237,6 @@ class PasteOfShameApp(rumps.App):
         except Exception as e:
             rumps.alert("Error", f"Failed to reload config: {e}")
 
-    @rumps.clicked("About")
     def show_about(self, _: rumps.MenuItem) -> None:
         """Show about dialog."""
         message = (
