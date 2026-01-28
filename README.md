@@ -1,10 +1,21 @@
 <div align="center">
 
+<img src="resources/image.png" alt="Paste of Shame" width="800" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
 # 🛡️ Paste of Shame
 
 ### **Stop embarrassing AI-generated content before you paste it**
 
 *Your personal clipboard watchdog that catches LLM boilerplate in real-time*
+
+<br>
+
+<a href="https://github.com/NoxelS/paste-of-shame/releases/latest/download/PasteOfShame-macOS.dmg">
+  <img src="https://img.shields.io/badge/Download%20for%20macOS-10.15+-blue?style=for-the-badge&logo=apple&logoColor=white&labelColor=000000" alt="Download for macOS">
+</a>
+
+<br>
+<br>
 
 [![Release](https://img.shields.io/github/v/release/NoxelS/paste-of-shame?style=for-the-badge&logo=github&color=success)](https://github.com/NoxelS/paste-of-shame/releases)
 [![CI/Tests](https://img.shields.io/github/actions/workflow/status/NoxelS/paste-of-shame/ci.yml?style=for-the-badge&logo=githubactions&label=CI)](https://github.com/NoxelS/paste-of-shame/actions/workflows/ci.yml)
@@ -64,17 +75,30 @@ Ever copy-pasted AI-generated content and **forgot to remove the telltale phrase
 
 **Native menu bar app with instant notifications**
 
-<a href="https://github.com/NoxelS/paste-of-shame/releases/latest">
-  <img src="https://img.shields.io/badge/Download_for_macOS-10.15+-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download for macOS"/>
+<a href="https://github.com/NoxelS/paste-of-shame/releases/latest/download/PasteOfShame-macOS.dmg">
+  <img src="https://img.shields.io/badge/Download%20DMG-10.15+-0071e3?style=for-the-badge&logo=apple&logoColor=white" alt="Download DMG" height="50">
 </a>
 
-<sub>Universal Binary • 10MB • macOS 10.15 (Catalina) or later</sub>
+<br>
+<sub>Universal Binary • ~10MB • macOS 10.15 (Catalina) or later</sub>
+
+</div>
+
+<br>
+
+**Installation Steps:**
+
+1. Download the DMG file above
+2. Open the downloaded DMG
+3. Drag **Paste of Shame.app** to your Applications folder
+4. Launch from Applications or Spotlight (⌘+Space)
+5. Click the 🫥 icon in your menu bar to get started
 
 **Or install via command line:**
 
 ```bash
 # Download and install latest release
-curl -L https://github.com/NoxelS/paste-of-shame/releases/latest/download/PasteOfShame-*-macOS.dmg -o PasteOfShame.dmg
+curl -L https://github.com/NoxelS/paste-of-shame/releases/latest/download/PasteOfShame-macOS.dmg -o PasteOfShame.dmg
 open PasteOfShame.dmg
 # Drag to Applications folder
 ```

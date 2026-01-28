@@ -72,6 +72,7 @@ from setuptools import setup
 APP = ["pasteofshame/app/macos_app.py"]
 DATA_FILES = [
     ("pasteofshame/core/patterns", ["pasteofshame/core/patterns/builtin.yml"]),
+    ("resources", ["resources/icon.icns"]),
 ]
 OPTIONS = {
     "argv_emulation": False,
