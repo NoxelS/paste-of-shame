@@ -30,8 +30,17 @@ class PasteOfShameApp(rumps.App):
             quit_button=None,  # We'll add it manually to control position
         )
 
-        # Load config
+        # Ensure config directory exists and load config
+        config_path = Config.get_config_path()
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Load config (creates default if doesn't exist)
         self.config = Config.load()
+        
+        # If config file doesn't exist, create it with defaults
+        if not config_path.exists():
+            self.config.save()
+        
         self.daemon: Daemon | None = None
         self.daemon_thread: threading.Thread | None = None
         self.is_running = False
@@ -170,20 +179,54 @@ class PasteOfShameApp(rumps.App):
         rumps.alert("Statistics", message)
 
     def show_preferences(self, _: rumps.MenuItem) -> None:
-        """Show preferences dialog."""
+        """Show preferences dialog and open config file in default editor."""
         config_path = Config.get_config_path()
-        message = f"Config file: {config_path}\n\nEdit this file to change settings."
+        
+        # Build message with current settings
+        settings_text = (
+            f"Config file: {config_path}\n\n"
+            f"Current Settings:\n"
+            f"• Threshold: {self.config.threshold}\n"
+            f"• Poll Interval: {self.config.poll_interval}s\n"
+            f"• Max Poll Interval: {self.config.max_poll_interval}s\n"
+            f"• Cooldown: {self.config.cooldown_seconds}s\n"
+            f"• Max Clipboard Size: {self.config.max_clipboard_size:,} chars\n"
+            f"• Languages: {', '.join(self.config.enabled_languages)}\n"
+            f"• Notifications: {'Enabled' if self.config.notify_enabled else 'Disabled'}\n\n"
+            f"Click 'Edit Config' to open in your default editor"
+        )
 
-        if rumps.alert(
+        # Show options
+        response = rumps.alert(
             "Preferences",
-            message,
-            ok="Open Config Folder",
+            settings_text,
+            ok="Edit Config",
             cancel="Close",
-        ):
-            # Open config folder in Finder
-            import subprocess
+        )
 
-            subprocess.run(["open", str(config_path.parent)], check=False)  # noqa: S603, S607
+        if response == 1:  # Edit Config
+            self._open_config_file()
+
+    def _open_config_file(self) -> None:
+        """Open config file in default editor."""
+        config_path = Config.get_config_path()
+        import subprocess
+        
+        try:
+            # Use open command to open with default editor
+            subprocess.run(["/usr/bin/open", str(config_path)], check=True)  # noqa: S603
+            
+            # Show reminder to reload config after editing
+            rumps.notification(
+                title="Paste of Shame",
+                subtitle="Config Opened",
+                message="Remember to use 'Reload Config' after saving changes",
+            )
+        except subprocess.CalledProcessError as e:
+            rumps.alert(
+                "Cannot Open File",
+                f"Could not open config file.\n\nLocation: {config_path}\n\nError: {e}"
+            )
 
     def set_threshold(self, value: float) -> None:
         """Set the detection threshold."""
