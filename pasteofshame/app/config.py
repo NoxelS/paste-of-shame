@@ -14,7 +14,7 @@ class Config:
     """Application configuration."""
 
     threshold: int = 20
-    enabled_languages: list[str] = field(default_factory=lambda: ["en"])
+    enabled_languages: list[str] = field(default_factory=lambda: ["en", "de"])
     allowlist_patterns: list[str] = field(default_factory=list)
     notify_enabled: bool = True
     poll_interval: float = 0.3
