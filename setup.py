@@ -93,7 +93,7 @@ OPTIONS = {
         "LSMinimumSystemVersion": "10.15.0",  # Catalina+ for Python 3.13
         "LSApplicationCategoryType": "public.app-category.utilities",
     },
-    "packages": ["pasteofshame", "yaml", "pyperclip", "click", "rumps"],
+    "packages": ["pasteofshame", "yaml", "pyperclip", "click", "rumps", "AppKit", "Foundation"],
     "includes": [
         "pasteofshame",
         "pasteofshame.core",
@@ -104,11 +104,15 @@ OPTIONS = {
         "pasteofshame.clipboard",
         "pasteofshame.clipboard.base",
         "pasteofshame.clipboard.polling",
+        "pasteofshame.clipboard.macos_native",  # Add native clipboard watcher
         "pasteofshame.notify",
         "pasteofshame.notify.notifier",
         "pasteofshame.app",
         "pasteofshame.app.config",
         "pasteofshame.app.daemon",
+        "AppKit",  # macOS native frameworks
+        "Foundation",
+        "objc",  # PyObjC runtime
     ],
     "excludes": [
         "tkinter",

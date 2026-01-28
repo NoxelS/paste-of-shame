@@ -44,6 +44,7 @@ dev = [
 macos-app = [
     "py2app>=0.28.0",
     "rumps>=0.4.0",
+    "pyobjc-framework-Cocoa>=10.0",  # For native NSPasteboard support
 ]
 
 [build-system]
@@ -142,5 +143,5 @@ preview = true
 extend_exclude = ["tests", "scripts"]
 
 [tool.deptry.per_rule_ignores]
-DEP004 = ["rumps"]  # Optional dependency group (macos-app)
+DEP004 = ["rumps", "AppKit"]  # Optional dependency group (macos-app)
 DEP003 = ["pkg_resources"]  # Transitive dependency (setuptools), used as fallback

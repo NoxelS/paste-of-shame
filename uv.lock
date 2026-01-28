@@ -255,6 +255,7 @@ dev = [
 ]
 macos-app = [
     { name = "py2app" },
+    { name = "pyobjc-framework-cocoa" },
     { name = "rumps" },
 ]
 
@@ -280,6 +281,7 @@ dev = [
 ]
 macos-app = [
     { name = "py2app", specifier = ">=0.28.0" },
+    { name = "pyobjc-framework-cocoa", specifier = ">=10.0" },
     { name = "rumps", specifier = ">=0.4.0" },
 ]
 

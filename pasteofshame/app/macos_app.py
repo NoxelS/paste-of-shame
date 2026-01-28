@@ -83,9 +83,9 @@ class PasteOfShameApp(rumps.App):
         # Build initial menu
         self._update_menu()
 
-        # Start timer to check notification queue
-        logger.info("Starting notification timer (0.5s interval)")
-        self.notification_timer = rumps.Timer(self._check_notifications, 0.5)
+        # Start timer to check notification queue (100ms for faster response)
+        logger.info("Starting notification timer (0.1s interval)")
+        self.notification_timer = rumps.Timer(self._check_notifications, 0.1)
         self.notification_timer.start()
         logger.info("Menu bar app initialized successfully")
 

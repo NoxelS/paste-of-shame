@@ -6,11 +6,20 @@ import time
 from collections.abc import Callable
 
 from pasteofshame.app.config import Config
+from pasteofshame.clipboard.base import ClipboardWatcher
 from pasteofshame.clipboard.polling import PollingClipboardWatcher
 from pasteofshame.core.detector import Detector
 from pasteofshame.core.rules import RulePack
 from pasteofshame.core.scoring import ScoringEngine
 from pasteofshame.notify.notifier import Notifier
+
+# Try to import macOS native clipboard watcher
+try:
+    from pasteofshame.clipboard.macos_native import MacOSNativeClipboardWatcher
+
+    MACOS_NATIVE_AVAILABLE = True
+except ImportError:
+    MACOS_NATIVE_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
@@ -53,11 +62,21 @@ class Daemon:
         # Only use desktop notifications if no callback provided (CLI mode)
         self.notifier = Notifier(desktop_enabled=config.notify_enabled and notification_callback is None, verbose=True)
 
-        self.watcher = PollingClipboardWatcher(
-            initial_interval=config.poll_interval,
-            max_interval=config.max_poll_interval,
-            max_size=config.max_clipboard_size,
-        )
+        # Use native macOS clipboard watcher if available (much faster!)
+        self.watcher: ClipboardWatcher
+        if MACOS_NATIVE_AVAILABLE:
+            logger.info("Using native macOS clipboard watcher (NSPasteboard)")
+            self.watcher = MacOSNativeClipboardWatcher(
+                max_size=config.max_clipboard_size,
+                check_interval=0.05,  # 50ms check interval (very low overhead)
+            )
+        else:
+            logger.info("Using polling clipboard watcher")
+            self.watcher = PollingClipboardWatcher(
+                initial_interval=config.poll_interval,
+                max_interval=config.max_poll_interval,
+                max_size=config.max_clipboard_size,
+            )
 
         # Rate limiting
         self._warned_hashes: set[str] = set()
