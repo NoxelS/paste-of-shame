@@ -65,7 +65,7 @@ cd paste-of-shame
 Then, install and activate the environment with:
 
 ```bash
-uv sync
+uv sync --all-groups --all-extras
 ```
 
 4. Install pre-commit to run linters/formatters at commit time:
