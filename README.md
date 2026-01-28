@@ -92,9 +92,15 @@ Ever copy-pasted AI-generated content and **forgot to remove the telltale phrase
 2. Open the downloaded DMG
 3. Drag **Paste of Shame.app** to your Applications folder
 4. Launch from Applications or Spotlight (⌘+Space)
-5. Click the 🫥 icon in your menu bar and select **Start Watching**
+5. **Grant permission to open the app:**
+   - Open **System Settings** → **Privacy & Security**
+   - Scroll down to find: *"Paste of Shame was blocked..."*
+   - Click **"Open Anyway"** → Enter password → Click **"Open"**
+6. Click the the icon in your menu bar and select **Start Watching**
 
 That's it! You'll get instant notifications when LLM boilerplate is detected in your clipboard.
+
+> **ℹ️ Why the security warning?** The app is not yet notarized by Apple (enrollment in progress). It's completely safe - the code is [open source](https://github.com/NoxelS/paste-of-shame) and auditable. Future releases will be fully notarized for seamless installation.
 
 ### 🚀 Auto-Start on Login (Optional)
 
