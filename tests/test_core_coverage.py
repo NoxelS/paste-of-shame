@@ -4,7 +4,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-import yaml
 
 from pasteofshame.core.detector import Detector
 from pasteofshame.core.rules import RulePack

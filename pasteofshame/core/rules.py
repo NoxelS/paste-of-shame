@@ -35,19 +35,13 @@ class RulePack:
     def builtin(cls) -> "RulePack":
         """Load the built-in rule pack."""
         # Read the builtin.yml file from the patterns directory
-        try:
-            # Python 3.11+ compatibility
-            files = importlib.resources.files("pasteofshame.core.patterns")
-            builtin_path = files / "builtin.yml"
-            with builtin_path.open("r", encoding="utf-8") as f:
-                data = yaml.safe_load(f)
-        except AttributeError:
-            # Fallback for older Python versions
-            import pkg_resources
+        # Use importlib.resources API (Python 3.9+)
+        files = importlib.resources.files("pasteofshame.core.patterns")
+        builtin_path = files / "builtin.yml"
 
-            builtin_file = pkg_resources.resource_filename("pasteofshame.core.patterns", "builtin.yml")
-            with open(builtin_file, encoding="utf-8") as f:
-                data = yaml.safe_load(f)
+        # Use as_file context manager for compatibility with all Python 3.10+ resource types
+        with importlib.resources.as_file(builtin_path) as path, open(path, encoding="utf-8") as f:
+            data = yaml.safe_load(f)
 
         return cls.from_dict(data)
 
