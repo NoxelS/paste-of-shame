@@ -325,7 +325,7 @@ rules:
 
   - id: "regex-2"
     description: "Generic 'I don't have access to' patterns"
-    pattern: "i (do n't|don\'t|do not) have access to"
+    pattern: "i (do n't|don't|do not) have access to"
     type: "regex"
     weight: 18
     severity: "medium"

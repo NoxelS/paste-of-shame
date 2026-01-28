@@ -4,7 +4,6 @@
 import subprocess
 import sys
 import threading
-from pathlib import Path
 
 # macOS-specific imports
 try:
@@ -16,7 +15,6 @@ except ImportError:
 from pasteofshame.app.config import Config
 from pasteofshame.app.daemon import Daemon
 from pasteofshame.core.rules import RulePack
-
 
 # Icon states
 ICON_IDLE = "🫥"
@@ -60,7 +58,7 @@ class PasteOfShameApp(rumps.App):
         """Ensure config directory and file exist."""
         config_path = Config.get_config_path()
         config_path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         if not config_path.exists():
             # Create default config
             config = Config.load()
@@ -79,7 +77,7 @@ class PasteOfShameApp(rumps.App):
     def _update_menu(self) -> None:
         """Update the menu based on current state."""
         self.menu.clear()
-        
+
         # Add control items based on state
         if self.is_running:
             self.menu.add(self.watching_item)
@@ -175,20 +173,17 @@ class PasteOfShameApp(rumps.App):
     def show_preferences(self, _: rumps.MenuItem) -> None:
         """Open config file in default editor."""
         config_path = Config.get_config_path()
-        
+
         try:
             subprocess.run(["/usr/bin/open", str(config_path)], check=True)  # noqa: S603
-            
+
             rumps.notification(
                 title="Paste of Shame",
                 subtitle="Config Opened",
                 message="Remember to reload config after saving changes",
             )
         except subprocess.CalledProcessError as e:
-            rumps.alert(
-                "Error Opening Config",
-                f"Could not open config file.\n\nLocation: {config_path}\n\nError: {e}"
-            )
+            rumps.alert("Error Opening Config", f"Could not open config file.\n\nLocation: {config_path}\n\nError: {e}")
 
     def set_threshold(self, value: float) -> None:
         """Set the detection threshold."""
