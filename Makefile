@@ -95,4 +95,11 @@ run-app: build-app ## Build and run the macOS app
 	@echo "🚀 Running macOS app"
 	@open "dist/Paste of Shame.app"
 
+.PHONY: update-app
+update-app: run-app
+	@echo "🔄 Updating macOS app"
+	@pkill -f "Paste of Shame.app" || true
+	@echo "🔄 Relaunching macOS app"
+	@open "dist/Paste of Shame.app"
+
 .DEFAULT_GOAL := build
