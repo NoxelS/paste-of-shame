@@ -23,11 +23,11 @@
 [![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)](https://www.python.org)
 
 <h3>
-  <a href="#-download">Download</a>
+  <a href="#-installation">Installation</a>
   <span> • </span>
   <a href="#-features">Features</a>
   <span> • </span>
-  <a href="#-quick-start">Quick Start</a>
+  <a href="#-how-it-works">How It Works</a>
   <span> • </span>
   <a href="docs/MACOS_APP.md">Documentation</a>
 </h3>
@@ -51,27 +51,27 @@ Ever copy-pasted AI-generated content and **forgot to remove the telltale phrase
 <table>
 <tr>
 <td align="center" width="33%">
-  <h3>🔒 100% Private</h3>
-  <p><strong>Zero network calls</strong><br/>Everything runs locally on your machine. Your clipboard data never leaves your computer.</p>
+  <h3>🔒 100% Local & Secure</h3>
+  <p><strong>Zero network calls</strong><br/>Everything runs locally on your machine. Your clipboard data never leaves your computer. No tracking, no telemetry, no data collection.</p>
 </td>
 <td align="center" width="33%">
   <h3>⚡ Lightning Fast</h3>
-  <p><strong>No AI/ML required</strong><br/>Deterministic pattern matching means instant detection with zero latency.</p>
+  <p><strong>Instant detection</strong><br/>No AI/ML models, no API delays. Pure pattern matching scans 100KB text in under 200ms. Zero performance impact on your system.</p>
 </td>
 <td align="center" width="33%">
   <h3>🎁 Free Forever</h3>
-  <p><strong>Open source (MIT)</strong><br/>Free to use, modify, and distribute. No subscriptions, no limits.</p>
+  <p><strong>Open source (MIT)</strong><br/>Free to use, modify, and distribute. No subscriptions, no limits, no premium tiers.</p>
 </td>
 </tr>
 </table>
 
 ---
 
-## 📥 Download
+## 📦 Installation
 
 <div align="center">
 
-### macOS Application (Recommended)
+### macOS Application
 
 **Native menu bar app with instant notifications**
 
@@ -92,9 +92,14 @@ Ever copy-pasted AI-generated content and **forgot to remove the telltale phrase
 2. Open the downloaded DMG
 3. Drag **Paste of Shame.app** to your Applications folder
 4. Launch from Applications or Spotlight (⌘+Space)
-5. Click the 🫥 icon in your menu bar to get started
+5. Click the 🫥 icon in your menu bar and select **Start Watching**
 
-**Or install via command line:**
+That's it! You'll get instant notifications when LLM boilerplate is detected in your clipboard.
+
+**Advanced: Command Line Installation**
+
+<details>
+<summary>Install via curl (click to expand)</summary>
 
 ```bash
 # Download and install latest release
@@ -103,36 +108,7 @@ open PasteOfShame.dmg
 # Drag to Applications folder
 ```
 
----
-
-### CLI Installation (All Platforms)
-
-<table>
-<tr>
-<td align="center" width="33%">
-  <img src="https://img.shields.io/badge/macOS-000000?style=flat&logo=apple&logoColor=white" alt="macOS"/>
-</td>
-<td align="center" width="33%">
-  <img src="https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black" alt="Linux"/>
-</td>
-<td align="center" width="33%">
-  <img src="https://img.shields.io/badge/Windows-0078D6?style=flat&logo=windows&logoColor=white" alt="Windows"/>
-</td>
-</tr>
-</table>
-
-```bash
-# Using uv (recommended)
-pip install uv
-uv sync
-uv run paste-of-shame watch
-
-# Using pip
-pip install -e .
-paste-of-shame watch
-```
-
-</div>
+</details>
 
 ---
 
@@ -163,114 +139,24 @@ Automatically ignores:
 <td width="50%">
 
 ### 🔔 Instant Notifications
-Native desktop alerts on macOS, Linux, and Windows with sound and visual indicators.
+Native desktop alerts with sound and visual indicators when LLM content is detected.
 
-### 📊 Configurable Threshold
-Adjust sensitivity from 0.1-1.0 to match your workflow. See statistics and scores in real-time.
+### 📊 Adjustable Sensitivity
+Fine-tune detection threshold from 1-60 points to match your workflow. Configure via menu bar or config file.
 
-### 🌍 Cross-Platform
-Works everywhere:
-- macOS (menu bar app + CLI)
-- Linux (CLI + systemd)
-- Windows (CLI + background service)
+### 🌍 Native macOS Integration
+Beautiful menu bar app with:
+- 🟢 Start/Stop watching
+- 🎚️ Adjust threshold on-the-fly
+- ⚙️ Open config in your editor
+- 🔄 Reload config instantly
 
 ### ⚡ Lightning Performance
-Scans 100KB of text in under 200ms. No AI models, no API calls, pure pattern matching.
+Scans 100KB text in under 200ms. No AI models, no API calls, no network delays. Pure local pattern matching.
 
 </td>
 </tr>
 </table>
-
----
-
-## ⚡ Quick Start
-
-### Option 1: macOS Menu Bar App (Easiest)
-
-<table>
-<tr>
-<td width="60px" align="center">1️⃣</td>
-<td>Download the <code>.dmg</code> from <a href="https://github.com/NoxelS/paste-of-shame/releases/latest">releases</a> and drag to Applications</td>
-</tr>
-<tr>
-<td align="center">2️⃣</td>
-<td>Launch "Paste of Shame" from Spotlight or Applications</td>
-</tr>
-<tr>
-<td align="center">3️⃣</td>
-<td>Click the ⚠️ icon in menu bar → <strong>Start Watching</strong></td>
-</tr>
-<tr>
-<td align="center">🎉</td>
-<td>That's it! You'll get notifications when LLM boilerplate is detected</td>
-</tr>
-</table>
-
-**Menu Features:**
-- 🟢/🔴 Start/Stop watching
-- 📊 View detection statistics
-- 🎚️ Adjust threshold
-- 🔄 Reload config on-the-fly
-
----
-
-### Option 2: CLI (All Platforms)
-
-
-#### 🔄 Watch Mode (Background Daemon)
-
-Start monitoring your clipboard continuously:
-
-```bash
-paste-of-shame watch
-```
-
-<details>
-<summary>Example Output</summary>
-
-```
-Starting clipboard monitor (threshold: 0.5)...
-Press Ctrl+C to stop
-
-⚠️  WARNING: LLM boilerplate detected! (score: 0.75)
-Matched patterns:
-  • "Certainly!" (category: polite_opening, score: 0.3)
-  • "Here is the code" (category: code_markers, score: 0.25)
-  • "I hope this helps" (category: encouragement, score: 0.2)
-```
-
-</details>
-
-#### 🔍 Scan Mode (On-Demand)
-
-Test text without starting the daemon:
-
-```bash
-```bash
-# Scan text directly
-paste-of-shame scan "As an AI language model, I cannot help with that."
-
-# Scan from stdin
-echo "Certainly! Here is the code." | paste-of-shame scan
-
-# JSON output for scripts
-paste-of-shame scan --json "Below is the implementation."
-```
-
-#### ⚙️ Configuration
-
-```bash
-# Show config location and current settings
-paste-of-shame config
-
-# List all 25+ built-in detection rules
-paste-of-shame rules
-```
-
-**Config file location:**
-- macOS: `~/Library/Application Support/paste-of-shame/config.yml`
-- Linux: `~/.config/paste-of-shame/config.yml`
-- Windows: `%APPDATA%\paste-of-shame\config.yml`
 
 ---
 
