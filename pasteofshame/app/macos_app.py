@@ -6,6 +6,7 @@ import queue
 import subprocess
 import sys
 import threading
+import time
 
 # macOS-specific imports
 try:
@@ -29,6 +30,7 @@ logger = logging.getLogger(__name__)
 # Icon states
 ICON_IDLE = "🫥"
 ICON_WATCHING = "🔎"
+FLASH_ICON = "🫢"
 
 
 class PasteOfShameApp(rumps.App):
@@ -47,11 +49,21 @@ class PasteOfShameApp(rumps.App):
         self.daemon: Daemon | None = None
         self.daemon_thread: threading.Thread | None = None
         self.is_running = False
-        self.title = ICON_IDLE
+        # Use helper to respect any active flash
+        self._original_title = None
+        self._flash_end_time: float | None = None
+        # Set initial title immediately
+        self._set_title(ICON_IDLE, force=True)
 
         # Queue for notifications from daemon thread
         self.notification_queue: queue.Queue[tuple[str, str, bool]] = queue.Queue()
         logger.debug("Notification queue created")
+
+        # Flash-related attributes (runtime)
+        # _original_title stores the title to restore after flash
+        # _flash_end_time is epoch seconds when flash should end
+        self._flash_end_time = getattr(self, "_flash_end_time", None)
+        self._original_title = getattr(self, "_original_title", None)
 
         # Ensure config exists
         self._ensure_config_exists()
@@ -66,7 +78,7 @@ class PasteOfShameApp(rumps.App):
             logger.info("Auto-starting daemon (notify_enabled=True)")
             self._start_daemon()
             self.is_running = True
-            self.title = ICON_WATCHING
+            self._set_title(ICON_WATCHING)
 
         # Build initial menu
         self._update_menu()
@@ -135,6 +147,15 @@ class PasteOfShameApp(rumps.App):
         # Stop the notification timer
         if hasattr(self, "notification_timer"):
             self.notification_timer.stop()
+
+        # Clear any active flash state and restore title
+        try:
+            if getattr(self, "_original_title", None) is not None:
+                self.title = self._original_title
+        except Exception:
+            logger.debug("Failed to restore title during quit")
+        self._flash_end_time = None
+        self._original_title = None
 
         # Stop the daemon
         if self.is_running:
@@ -207,19 +228,36 @@ class PasteOfShameApp(rumps.App):
 
     def _check_notifications(self, _: rumps.Timer) -> None:
         """Check notification queue and send any pending notifications (runs on main thread)."""
+        # Handle flash expiration on each tick so we don't rely on a separate timer
+        try:
+            if self._flash_end_time is not None and time.time() >= self._flash_end_time:
+                try:
+                    self._end_flash()
+                except Exception:
+                    logger.exception("Failed to end flash")
+        except Exception:
+            logger.exception("Unexpected error during flash expiration check")
         try:
             while True:
                 title, message, sound = self.notification_queue.get_nowait()
                 logger.info(f"📬 Dequeued notification: {title} - {message}, sound={sound}")
                 # Send notification using rumps (uses app's icon)
                 try:
-                    rumps.notification(
-                        title="Paste of Shame",
-                        subtitle=title,
-                        message=message,
-                        sound=sound,
-                    )
-                    logger.info("✅ Notification sent successfully via rumps")
+                    if self.config.notify_enabled:
+                        rumps.notification(
+                            title="Paste of Shame",
+                            subtitle=title,
+                            message=message,
+                            sound=sound,
+                        )
+                        logger.info("✅ Notification sent successfully via rumps")
+
+                    # Flash the menu title briefly to draw attention
+                    try:
+                        self._flash_menu_title()
+                    except Exception as e:
+                        logger.debug(f"Failed to flash menu title: {e}")
+
                 except Exception as e:
                     logger.error(f"❌ Failed to send rumps notification: {e}", exc_info=True)
         except queue.Empty:
@@ -244,6 +282,43 @@ class PasteOfShameApp(rumps.App):
             self._stop_daemon()
             self._start_daemon()
 
+    def _flash_menu_title(self) -> None:
+        """Temporarily set the menu title to a flashing icon and restore after 3 seconds."""
+        # Save original title if not already saved and set flash icon
+        if self._original_title is None:
+            self._original_title = self.title
+        self.title = FLASH_ICON
+
+        # Schedule flash end using epoch time; _check_notifications will restore
+        self._flash_end_time = time.time() + 3.0
+
+    def _end_flash(self) -> None:
+        """Restore the original menu title and clear flash state."""
+        try:
+            if self._original_title is not None:
+                self.title = self._original_title
+        finally:
+            self._flash_end_time = None
+            self._original_title = None
+
+    def _set_title(self, new_title: str, force: bool = False) -> None:
+        """Set the app title unless a flash is active.
+
+        If a flash is active and force is False, the call is ignored so the
+        flashing icon isn't immediately overwritten by other state updates.
+        Use force=True to override.
+        """
+        if getattr(self, "_flash_end_time", None) is not None and not force and time.time() < self._flash_end_time:
+            logger.debug("Skipping title update because a flash is active")
+            return
+
+        self.title = new_title
+
+        # If we force-set the title and there was a flash scheduled, cancel it
+        if force and getattr(self, "_flash_end_time", None) is not None:
+            self._flash_end_time = None
+            self._original_title = None
+
     def start_watching(self, _: rumps.MenuItem) -> None:
         """Start watching the clipboard."""
         logger.info("Start watching clicked")
@@ -255,7 +330,7 @@ class PasteOfShameApp(rumps.App):
         try:
             self._start_daemon()
             self.is_running = True
-            self.title = ICON_WATCHING
+            self._set_title(ICON_WATCHING)
             self._update_menu()
             logger.info("Started watching, showing notification")
 
@@ -276,7 +351,7 @@ class PasteOfShameApp(rumps.App):
 
         self._stop_daemon()
         self.is_running = False
-        self.title = ICON_IDLE
+        self._set_title(ICON_IDLE)
         self._update_menu()
 
         rumps.notification(
@@ -289,16 +364,42 @@ class PasteOfShameApp(rumps.App):
         """Open config file in default editor."""
         config_path = Config.get_config_path()
 
-        try:
-            subprocess.run(["/usr/bin/open", str(config_path)], check=True)
+        # Ensure the config file exists before trying to open it
+        if not config_path.exists():
+            # Create default config if it doesn't exist
+            try:
+                config = Config.load()
+                config.save()
+                logger.info(f"Created config file at {config_path}")
+            except Exception as e:
+                rumps.alert("Error", f"Could not create config file.\n\nError: {e}")
+                return
 
-            rumps.notification(
-                title="Paste of Shame",
-                subtitle="Config Opened",
-                message="Remember to reload config after saving changes",
+        try:
+            # Use open -t to force text editor, and check=False to avoid exception on -600 errors
+            result = subprocess.run(
+                ["/usr/bin/open", "-t", str(config_path)],
+                check=False,
+                capture_output=True,
+                text=True,
             )
-        except subprocess.CalledProcessError as e:
-            rumps.alert("Error Opening Config", f"Could not open config file.\n\nLocation: {config_path}\n\nError: {e}")
+            
+            if result.returncode == 0:
+                rumps.notification(
+                    title="Paste of Shame",
+                    subtitle="Config Opened",
+                    message="Remember to reload config after saving changes",
+                )
+            else:
+                # If open fails, show location so user can open manually
+                logger.warning(f"Failed to open config with code {result.returncode}: {result.stderr}")
+                rumps.alert(
+                    "Config Location",
+                    f"Could not auto-open config file.\n\nPlease open manually:\n{config_path}",
+                )
+        except Exception as e:
+            logger.error(f"Error opening config: {e}", exc_info=True)
+            rumps.alert("Error", f"Could not open config file.\n\nLocation:\n{config_path}\n\nError: {e}")
 
     def set_threshold(self, value: float) -> None:
         """Set the detection threshold."""
