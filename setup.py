@@ -86,8 +86,8 @@ OPTIONS = {
         "CFBundleName": "Paste of Shame",
         "CFBundleDisplayName": "Paste of Shame",
         "CFBundleIdentifier": "com.pasteofshame.app",
-        "CFBundleVersion": "0.1.0",
-        "CFBundleShortVersionString": "0.1.0",
+        "CFBundleVersion": "0.1.1",
+        "CFBundleShortVersionString": "0.1.1",
         "LSUIElement": True,  # Run as agent (no dock icon, menu bar only)
         "NSHighResolutionCapable": True,
         "LSMinimumSystemVersion": "10.15.0",  # Catalina+ for Python 3.13

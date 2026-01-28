@@ -11,7 +11,7 @@ if [ -f "pyproject.toml" ]; then
     VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
     echo "📌 Detected version: ${VERSION}"
 else
-    VERSION="0.1.0"
+    VERSION="0.1.1"
     echo "⚠️  Warning: Could not find pyproject.toml, using default version ${VERSION}"
 fi
 
@@ -75,11 +75,11 @@ Make Paste of Shame launch automatically when you log in.
 │ METHOD 2: Terminal Command (For Developers)                 │
 └─────────────────────────────────────────────────────────────┘
   If you have the source repository cloned:
-  
+
   To enable auto-start:
     cd /path/to/paste-of-shame
     make install-launchagent
-  
+
   To disable auto-start:
     make uninstall-launchagent
 

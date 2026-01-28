@@ -5,7 +5,7 @@ A cross-platform tool that monitors your clipboard and warns you when
 you copy text containing common LLM artifacts and boilerplate phrases.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 from pasteofshame.core import (
     Detector,

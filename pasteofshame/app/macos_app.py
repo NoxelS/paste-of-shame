@@ -438,7 +438,7 @@ class PasteOfShameApp(rumps.App):
     def show_about(self, _: rumps.MenuItem) -> None:
         """Show about dialog."""
         message = (
-            "Paste of Shame v0.1.0\n\n"
+            "Paste of Shame v0.1.1\n\n"
             "Clipboard watchdog for detecting LLM-generated boilerplate.\n\n"
             "Uses deterministic pattern matching to detect common\n"
             "AI-generated phrases and boilerplate text.\n\n"

@@ -1,6 +1,6 @@
 [project]
 name = "paste-of-shame"
-version = "0.1.0"
+version = "0.1.1"
 description = "Paste of Shame - Clipboard watchdog that detects LLM-generated boilerplate"
 authors = [{ name = "Noel Schwabenland", email = "noel@schwabenland.ch" }]
 readme = "README.md"

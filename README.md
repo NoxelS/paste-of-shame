@@ -10,7 +10,7 @@
 
 <br>
 
-<a href="https://github.com/NoxelS/paste-of-shame/releases/latest/download/Paste-of-Shame-0.1.0-macOS.dmg">
+<a href="https://github.com/NoxelS/paste-of-shame/releases/latest/download/Paste-of-Shame-0.1.1-macOS.dmg">
   <img src="https://img.shields.io/badge/Download%20for%20macOS-10.15+-blue?style=for-the-badge&logo=apple&logoColor=white&labelColor=000000" alt="Download for macOS">
 </a>
 
@@ -41,7 +41,7 @@
 Ever copy-pasted AI-generated content and **forgot to remove the telltale phrases**?
 
 - *"As an AI language model, I cannot..."* ❌
-- *"Certainly! Here is the code you requested..."* ❌  
+- *"Certainly! Here is the code you requested..."* ❌
 - *"I hope this helps! Feel free to ask if..."* ❌
 
 **Paste of Shame catches these embarrassing moments before they happen.**
@@ -75,7 +75,7 @@ Ever copy-pasted AI-generated content and **forgot to remove the telltale phrase
 
 **Native menu bar app with instant notifications**
 
-<a href="https://github.com/NoxelS/paste-of-shame/releases/latest/download/Paste-of-Shame-0.1.0-macOS.dmg">
+<a href="https://github.com/NoxelS/paste-of-shame/releases/latest/download/Paste-of-Shame-0.1.1-macOS.dmg">
   <img src="https://img.shields.io/badge/Download%20DMG-10.15+-0071e3?style=for-the-badge&logo=apple&logoColor=white" alt="Download DMG" height="50">
 </a>
 
@@ -173,7 +173,7 @@ rm ~/Library/LaunchAgents/com.pasteofshame.app.plist
 
 ```bash
 # Download and install latest release
-curl -L https://github.com/NoxelS/paste-of-shame/releases/latest/download/Paste-of-Shame-0.1.0-macOS.dmg -o PasteOfShame.dmg
+curl -L https://github.com/NoxelS/paste-of-shame/releases/latest/download/Paste-of-Shame-0.1.1-macOS.dmg -o PasteOfShame.dmg
 open PasteOfShame.dmg
 # Drag to Applications folder
 ```
