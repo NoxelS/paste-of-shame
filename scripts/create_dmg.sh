@@ -11,7 +11,7 @@ if [ -f "pyproject.toml" ]; then
     VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
     echo "📌 Detected version: ${VERSION}"
 else
-    VERSION="0.1.1"
+    VERSION="0.1.2"
     echo "⚠️  Warning: Could not find pyproject.toml, using default version ${VERSION}"
 fi
 

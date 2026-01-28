@@ -14,7 +14,7 @@ from pasteofshame.notify.notifier import Notifier
 
 
 @click.group()
-@click.version_option(version="0.1.1", prog_name="paste-of-shame")
+@click.version_option(version="0.1.2", prog_name="paste-of-shame")
 def main() -> None:
     """Paste of Shame - Clipboard watchdog for detecting LLM boilerplate."""
     pass
